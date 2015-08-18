@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/groupHome"
+        android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/ic_home"
+            android:id="@+id/home"
+            android:title="@string/home">
+
+        </item>
+    </group>
+
+
+    <group
+        android:id="@+id/groupContact"
+        android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/ic_phone"
+            android:id="@+id/contact"
+            android:title="@string/contact">
+
+        </item>
+    </group>
+    <group
+        android:id="@+id/groupContribute"
+        android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/ic_border_color"
+            android:id="@+id/contribute"
+            android:title="@string/contribute">
+
+        </item>
+    </group>
+    <group
+        android:id="@+id/groupDiscuss"
+        android:checkableBehavior="single">
+
+        <item
+            android:icon="@drawable/ic_message_text"
+            android:id="@+id/discuss"
+            android:title="@string/discuss">
+
+        </item>
+    </group>
+    <group
+        android:id="@+id/groupAsk"
+        android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/ic_microphone_variant"
+            android:id="@+id/ask"
+            android:title="@string/ask">
+
+        </item>
+    </group>
+    <group
+        android:id="@+id/groupSettings"
+        android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/ic_settings"
+            android:id="@+id/settings"
+            android:title="@string/settings">
+
+        </item>
+    </group>
+
+
+</menu>
