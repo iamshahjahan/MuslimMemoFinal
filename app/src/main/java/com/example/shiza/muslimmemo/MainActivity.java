@@ -274,10 +274,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         protected void onProgressUpdate(final Wrapper... values) {
+            customAdapter = new CustomAdapter(mContext, values[0]);
             super.onProgressUpdate(values);
             if (count == 1) {
-                Log.d("HeadingLink","The heading link : " + values[0].headingLink);
-                customAdapter = new CustomAdapter(mContext, values[0]);
+                Log.d("HeadingLink", "The heading link : " + values[0].headingLink);
                 listView.setAdapter(customAdapter);
 //                listView.addFooterView(progressBar);
                 footerView = ((LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.progress_bar, null, false);
@@ -286,29 +286,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 progressBar.setVisibility(View.GONE);
                 listView.addFooterView(footerView);
 
+
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                        put the heading link when passing data
 
 
-                        Intent intent = new Intent(getApplicationContext(), FullContent.class);
-                        intent.putExtra("headingLink",values[0].headingLink);
-                        intent.putExtra("heading",values[0].heading);
-                        intent.putExtra("headingSummary",values[0].headingSummary);
-                        intent.putExtra("category",values[0].category);
-                        intent.putExtra("author",values[0].author);
-                        intent.putExtra("published",values[0].published);
+                        Object listItem = listView.getItemAtPosition(position);
 
-                        startActivity(intent);
+                        Toast.makeText(mContext,"list item Is " + listItem,Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), FullContent.class);
+
+//                        intent.putExtra("headingLink", listItem.tit);
+//                        intent.putExtra("heading", values[0].heading);
+//                        intent.putExtra("headingSummary", values[0].headingSummary);
+//                        intent.putExtra("category", values[0].category);
+//                        intent.putExtra("author", values[0].author);
+//                        intent.putExtra("published", values[0].published);
+//
+//                        startActivity(intent);
                     }
                 });
 
+
+
+
             } else {
                 customAdapter.addItem(values[0]);
-
-
             }
+
+
 
             if ( next.isEmpty() )
             {
