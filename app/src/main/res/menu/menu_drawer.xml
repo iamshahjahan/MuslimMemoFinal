@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <!-- home-->
     <group
         android:id="@+id/groupHome"
         android:checkableBehavior="single">
@@ -10,18 +13,21 @@
 
         </item>
     </group>
+<!--About-->
 
 
     <group
-        android:id="@+id/groupContact"
+        android:id="@+id/groupAbout"
         android:checkableBehavior="single">
         <item
-            android:icon="@drawable/ic_phone"
-            android:id="@+id/contact"
-            android:title="@string/contact">
-
+            android:icon="@drawable/ic_message_text"
+            android:id="@+id/about"
+            android:title="@string/about">
         </item>
     </group>
+
+    <!--Contribute-->
+
     <group
         android:id="@+id/groupContribute"
         android:checkableBehavior="single">
@@ -32,27 +38,35 @@
 
         </item>
     </group>
+
+
+
+
+    <!-- Discuss-->
     <group
         android:id="@+id/groupDiscuss"
         android:checkableBehavior="single">
 
         <item
-            android:icon="@drawable/ic_message_text"
+            android:icon="@drawable/ic_microphone_variant"
             android:id="@+id/discuss"
             android:title="@string/discuss">
 
         </item>
     </group>
+
+    <!-- Web Version-->
     <group
-        android:id="@+id/groupAsk"
+        android:id="@+id/groupWeb"
         android:checkableBehavior="single">
         <item
-            android:icon="@drawable/ic_microphone_variant"
-            android:id="@+id/ask"
-            android:title="@string/ask">
-
+            android:icon="@drawable/ic_web"
+            android:id="@+id/web"
+            android:title="@string/web">
         </item>
     </group>
+
+    <!-- Settings-->
     <group
         android:id="@+id/groupSettings"
         android:checkableBehavior="single">
@@ -63,6 +77,5 @@
 
         </item>
     </group>
-
 
 </menu>

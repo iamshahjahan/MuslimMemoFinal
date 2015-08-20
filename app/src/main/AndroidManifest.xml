@@ -33,6 +33,10 @@
             android:name=".Settings"
             android:label="@string/title_activity_settings" >
         </activity>
+        <activity
+            android:name=".FullContent"
+            android:label="@string/title_activity_full_content" >
+        </activity>
     </application>
 
 </manifest>

@@ -1,4 +1,5 @@
 package com.example.shiza.muslimmemo;
+
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -24,25 +25,20 @@ import java.util.Random;
 /**
  * Created by Shiza on 16-06-2015.
  */
-public class NotificationCreater extends BroadcastReceiver
-{
+public class NotificationCreater extends BroadcastReceiver {
     @Override
-    public void onReceive(Context context, Intent intent)
-    {
+    public void onReceive(Context context, Intent intent) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("SETTINGS", Activity.MODE_PRIVATE);
         Log.d("createNotification", "I am in on recieve");
 
-        if ( sharedPreferences.getBoolean("NOTIFICATIONS",true))
-        {
+        if (sharedPreferences.getBoolean("NOTIFICATIONS", true)) {
             checkForNewEntry task = new checkForNewEntry(context);
-            if(Build.VERSION.SDK_INT >= 11)
+            if (Build.VERSION.SDK_INT >= 11)
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             else
                 task.execute();
-        }
-        else
-        {
-            Log.d("createNotification","You switched off the notification.");
+        } else {
+            Log.d("createNotification", "You switched off the notification.");
         }
 //        createNotification(context);
     }
@@ -52,7 +48,7 @@ public class NotificationCreater extends BroadcastReceiver
         int notificationID = random.nextInt(1000) + 1;
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-        Log.d("createNotification","I am notification builder try");
+        Log.d("createNotification", "I am notification builder try");
         mBuilder.setSmallIcon(R.drawable.bg);
         mBuilder.setContentTitle("MUSLIM MEMO");
         mBuilder.setContentText(heading);
@@ -86,27 +82,31 @@ class checkForNewEntry extends AsyncTask<Void, Void, Void> {
     }
 
 
-
     @Override
     protected Void doInBackground(Void... params) {
         sharedPreferences = mContext.getSharedPreferences("NOTIFICATION", Activity.MODE_PRIVATE);
         try {
-            Log.d("createNotification","I am notification creator try");
-
+            Log.d("createNotification", "I am notification creator try");
+            boolean flag = true;
             Document document = Jsoup.connect("https://muslimmemo.com").get();
             Elements heading = document.getElementsByClass("entry-title");
             for (Element headings : heading) {
                 if (!sharedPreferences.getBoolean(headings.text(), false)) {
-                    NotificationCreater.createNotification(mContext, headings.text());
+                    Log.d("NotificationError","I am checking" + headings.text());
+
+                    if (flag) {
+                        NotificationCreater.createNotification(mContext, headings.text());
+                        flag = false;
+                    }
                     sharedPreferences.edit().putBoolean(headings.text(), true).apply();
-                    Log.d("createNotification","I am in notification creator");
+                    Log.d("createNotification", "I am in notification creator");
                     break;
                 }
 
             }
 
         } catch (IOException e) {
-            Log.d("createNotification","I am notification creator catch");
+            Log.d("createNotification", "I am notification creator catch");
 
             e.printStackTrace();
         }

@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/thumbnail"
-        android:textColor="@color/year"
+        android:textColor="@color/colorTextSecondary"
         android:textSize="@dimen/year" />
 
     <!-- Movie Title -->
@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/thumbnail"
         android:textSize="@dimen/title"
+        android:textColor="@color/colorTextPrimary"
         android:textStyle="bold" />
 
     <!-- Rating -->
@@ -40,7 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_marginTop="1dip"
-        android:maxHeight="100dp"
+        android:maxHeight="50dp"
+        android:textColor="@color/colorTextSecondary"
         android:layout_toRightOf="@+id/thumbnail"
         android:textSize="@dimen/rating" />
 

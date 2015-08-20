@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,9 @@ public class Settings extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("Muslim Memo");
+
+        setSupportActionBar(toolbar);
+
         checkBox = (CheckBox)findViewById(R.id.notification_check);
 
         sharedPreferences = this.getSharedPreferences("SETTINGS",MODE_PRIVATE);
@@ -65,8 +69,8 @@ public class Settings extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.back) {
-            Intent intent = new Intent(this,MainActivity.class);
-            startActivity(intent);
+            this.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK));
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

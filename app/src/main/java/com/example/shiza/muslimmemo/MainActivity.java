@@ -1,6 +1,7 @@
 package com.example.shiza.muslimmemo;
 
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sharedPreferences = this.getSharedPreferences("NOTIFICATION", Context.MODE_PRIVATE);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         toolbar.setTitle("Muslim Memo");
+//        toolbar.setLogo();
+        setSupportActionBar(toolbar);
         progressBar = (ProgressBar) findViewById(R.id.pbHeaderProgress);
         listView = (ListView) findViewById(R.id.listView);
         mDrawer = (NavigationView) findViewById(R.id.main_drawer);
@@ -84,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mDrawerLayout.setDrawerListener(drawerToggle);
         Log.d("notification", "calling notification");
-        createNotification();
+//        createNotification();
 // calling the asynctask
 //        fab.setVisibility(View.GONE);
         Title title = new Title(this);
@@ -151,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         String nextUrl;
         int count = 0;
         View footerView;
-
         public Title(Context context) {
             mContext = context;
         }
@@ -160,12 +162,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onPreExecute();
 
             progressBar.setVisibility(View.VISIBLE);
-            //fab.setVisibility(View.VISIBLE);
+            //.setVisibility(View.VISIBLE);
 //            new NotificationCreaterWithParsing(getApplicationContext()).createNotification(getApplicationContext(),"hello");
         }
 
+
         @Override
         protected Void doInBackground(String... params) {
+            boolean put_value = true;
+            SharedPreferences sharedPreferences = mContext.getSharedPreferences("NOTIFICATION", Activity.MODE_PRIVATE);
             nextUrl = params[0];
             while (!nextUrl.isEmpty()) {
                 Log.d("tag", "I am in while.");
@@ -190,7 +195,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         w.category = category.get(i).text();
                         w.heading = heading.get(i).text();
-
+                        if ( put_value )
+                        {
+                            Log.d("NotificationError","I am putting" + w.heading);
+                            sharedPreferences.edit().putBoolean(w.heading, true).apply();
+                        }
 
 
                         w.headingLink = headingLink.get(i).attr("href");
@@ -232,8 +241,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
 
                         count++;
+
                         publishProgress(w);
                     }
+                    put_value = false;
+                    createNotification();
+
                    if (next.isEmpty())
                    {
 
@@ -255,87 +268,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
 
-//                trying to connect for image.
-//                for ( Element  categorys: category)
-//                {
-//
-//                    w.category.add(categorys.text());
-//
-//
-//                }
-//
-////                createNotification();
-//                for ( Element headings : heading)
-//                {
-//                    w.heading.add(headings.text());
-////                    sharedPreferences.edit().putBoolean(headings.text(),true).apply();
-//                }
-//
-//
-//
-//                for ( Element headingLinks : headingLink )
-//                {
-////                    w.h
-//                    w.headingLinks.add(headingLinks.attr("href"));
-//                    try
-//                    {
-//                        Document doc = Jsoup.connect(headingLinks.attr("href")).get();
-//                        // Using Elements to get the class data
-//                        Element img = doc.select("header.site-header").first();
-//                        // Locate the src attribute
-//                        String temp = img.getElementsByAttribute("style")
-//                                .toString();
-//                        // URL of image
-//                        String imageStrg = temp
-//                                .substring(temp.indexOf("(") + 1, temp.indexOf(")"));
-//                        // Download image from URL
-//                        InputStream input = new java.net.URL(imageStrg).openStream();
-//                        // Decode Bitmap
-//
-//                        Bitmap bit = BitmapFactory.decodeStream(input);
-//                        Bitmap resized = Bitmap.createScaledBitmap(bit,100,100, true);
-//                        w.bitmaps.add(resized);
-//
-////                        if ( w.bitmaps.get(w.bitmaps.size() - 1) != null )
-////                        {
-////                            w.bitmaps.get(w.bitmaps.size() - 1).recycle();
-////                        }
-//                    }
-//                    catch(IOException e)
-//                    {
-//                        w.bitmaps.add(BitmapFactory.decodeResource(mContext.getResources(),
-//                                R.drawable.bg));
-//                        e.printStackTrace();
-//
-//                    }
-//                }
-//
-//
-//
-//
-//                for ( Element headingSummarys : headingSummary)
-//                {
-//                    w.headingSummary.add(headingSummarys.text());
-//                }
-//
-//                for ( Element authors : author)
-//                {
-//                    w.author.add(authors.text());
-//                }
-//                for ( Element publisheds : published)
-//                {
-//                    w.published.add(publisheds.text());
-//                }
-//
-//                if ( !next.isEmpty() )
-//                {
-//                    w.nextUrl = next.attr("href");
-//                }
-//                else
-//                {
-//                    w.nextUrl = null;
-//                }
-//
 
             return null;
         }
@@ -357,13 +289,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(values[0].headingLink));
+//                        put the heading link when passing data
+
+
+                        Intent intent = new Intent(getApplicationContext(), FullContent.class);
+                        intent.putExtra("headingLink",values[0].headingLink);
+                        intent.putExtra("heading",values[0].heading);
+                        intent.putExtra("headingSummary",values[0].headingSummary);
+                        intent.putExtra("category",values[0].category);
+                        intent.putExtra("author",values[0].author);
+                        intent.putExtra("published",values[0].published);
+
                         startActivity(intent);
                     }
                 });
 
             } else {
                 customAdapter.addItem(values[0]);
+
 
             }
 
@@ -398,9 +341,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.refresh) {
+            Title title = new Title(this);
 
-            return true;
+            title.execute("https://muslimmemo.com");
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -421,21 +366,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.home:
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
-            case R.id.contact:
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://muslimmemo.com/contact/"));
+            case R.id.web:
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://muslimmemo.com/"));
                 startActivity(intent);
+                break;
             case R.id.contribute:
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://muslimmemo.com/contribute/"));
                 startActivity(intent);
+                break;
             case R.id.discuss:
                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://muslimmemo.com/discuss/"));
                 startActivity(intent);
-            case R.id.ask:
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://muslimmemo.com/ask/"));
+                break;
+
+            case R.id.about:
+                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://muslimmemo.com/about/"));
                 startActivity(intent);
+                break;
             case R.id.settings:
                 intent = new Intent(this,Settings.class);
                 startActivity(intent);
+                break;
             default:
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;

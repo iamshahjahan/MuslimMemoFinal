@@ -5,7 +5,9 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.shiza.muslimmemo.Settings">
+    tools:context="com.example.shiza.muslimmemo.Settings"
+
+    >
 
 
     <RelativeLayout
@@ -13,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="#aaa"
+        android:background="@color/colorPrimaryLight"
         android:weightSum="1">
 
         <android.support.v7.widget.Toolbar
@@ -28,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" 
                 android:text="NOTIFICATIONS "
-                android:textColor="@color/colorPrimaryLight"
+                android:textColor="@color/colorTextPrimary"
                 android:textSize="20dp"
                 android:id="@+id/textView"
                 android:layout_centerVertical="true"
